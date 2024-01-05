@@ -5,18 +5,20 @@ import { useState } from 'react';
 
 function App() {
 
-  const [text, setText] = useState("책")
+  const [text, setText] = useState("");
+  const [trans, setTrans] = useState();
+  const URI = process.env.REACT_APP_BASEURL;
 
   const translate = async () => {
     try {
-      const result = await axios.get("http://127.0.0.1:4123/translate",
+      const result = await axios.get(`${URI}/translate`,
         {
           params: {
             text: text
           }
         }
       );
-      console.log(result);
+      setTrans(result.data.message.result.translatedText);
     } catch (error) {
       console.log(error);
     }
@@ -25,10 +27,11 @@ function App() {
   return (
     <>
       <Main>
-        1wwwe
+        {trans}
       </Main>
+      <input onChange={(e) => setText(e.target.value)} value={text} />
       <button onClick={translate}>
-        asd
+        눌러
       </button>
     </>
 
